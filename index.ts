@@ -60,7 +60,7 @@ client.on('interactionCreate', async interaction => {
   if (!member || !meMember) return;
   if (member.roles.highest.position <= meMember.roles.highest.position) {
     return await interaction.reply({
-      content: `You don't have a high enough role in the server.`,
+      content: "You don't have a high enough role in the server.",
       ephemeral: true,
     });
   }
@@ -69,7 +69,7 @@ client.on('interactionCreate', async interaction => {
     messageId && (await interaction.channel?.messages.fetch(messageId));
   if (!message) {
     await interaction.reply({
-      content: `There was a problem - message not found.`,
+      content: 'There was a problem - message not found.',
       ephemeral: true,
     });
     await interaction.message.delete();
@@ -77,17 +77,21 @@ client.on('interactionCreate', async interaction => {
   }
   try {
     await message.member!.roles.add(roleSf);
-    await message.reply({ content: '👍', failIfNotExists: true });
+    await message.reply({
+      content: `👍 by <@${user.id}>`,
+      allowedMentions: { parse: [] },
+      failIfNotExists: true,
+    });
   } catch {
     await interaction.reply({
-      content: `There was a problem adding the role.`,
+      content: 'There was a problem adding the role.',
       ephemeral: true,
     });
     await interaction.message.delete();
     return;
   }
   await interaction.reply({
-    content: `Successfully added the role.`,
+    content: 'Successfully added the role.',
     ephemeral: true,
   });
   await interaction.message.delete();
